@@ -1,0 +1,39 @@
+import urllib
+from urllib.parse import urljoin
+
+import requests
+from langchain_core.tools import tool
+from requests import Response
+
+URL = "https://c0ouez95i5.execute-api.us-west-2.amazonaws.com/daily-dragon/vocabulary"
+
+
+@tool
+def get_words() -> Response:
+    """
+    Retrieve user's list of words from vocabulary.
+    :return: List of words
+    """
+    return requests.get(URL).json()
+
+
+@tool
+def add_word(word: str) -> Response:
+    """
+    Add a word to vocabulary.
+    :param word: Word to add
+    :return: Response
+    """
+    return requests.post(URL, json={"word": word}).json()
+
+
+@tool
+def remove_word(word: str) -> Response:
+    """
+    Remove a word from vocabulary.
+    :param word: String word to remove.
+    :return: Deletion response
+    """
+    encoded_word = urllib.parse.quote(word)
+    delete_url = urljoin(URL, encoded_word)
+    return requests.delete(delete_url).json()
