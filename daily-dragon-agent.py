@@ -15,7 +15,7 @@ if not openai_api_key:
     print('No OpenAI API key set.\nAdd your OpenAI API key to the .env file.')
     exit(1)
 
-model = ChatOpenAI()
+model = ChatOpenAI(model="gpt-4.1-nano")
 
 vocabulary_tools = [
     get_words,
