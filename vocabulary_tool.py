@@ -14,7 +14,9 @@ def get_words() -> Response:
     Retrieve user's list of words from vocabulary.
     :return: List of words
     """
-    return requests.get(URL).json()
+    response = requests.get(URL).json()
+    print(f"Retrieved {len(response)} words from vocabulary.")
+    return response
 
 
 @tool
@@ -24,7 +26,9 @@ def add_word(word: str) -> Response:
     :param word: Word to add
     :return: Response
     """
-    return requests.post(URL, json={"word": word}).json()
+    response = requests.post(URL, json={"word": word}).json()
+    print(response)
+    return response
 
 
 @tool
@@ -35,5 +39,8 @@ def remove_word(word: str) -> Response:
     :return: Deletion response
     """
     encoded_word = urllib.parse.quote(word)
-    delete_url = urljoin(URL, encoded_word)
-    return requests.delete(delete_url).json()
+    delete_url = f"{URL}/{encoded_word}"
+    print(f"Removing {word} from vocabulary.")
+    response = requests.delete(delete_url).json()
+    print(response)
+    return response
